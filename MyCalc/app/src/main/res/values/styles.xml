@@ -1,0 +1,35 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="textview_inputbox" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">35sp</item>
+        <item name="android:textStyle">bold</item>
+
+        <item name="android:textColor">#f4fae2</item>
+        <item name="android:padding">5pt</item>
+        <item name="android:gravity">right</item>
+        <!--
+
+<item name="android:textColor">#ff1a1a</item>
+        -->
+    </style>
+
+    <style name="button_calc" parent="@android:style/Widget.Button">
+        <item name="android:background">@drawable/button_calc</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:gravity">center_horizontal|center_vertical</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+
+    </style>
+
+</resources>
