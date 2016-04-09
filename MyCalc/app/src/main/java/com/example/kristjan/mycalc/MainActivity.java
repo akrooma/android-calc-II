@@ -9,6 +9,8 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     //private static final String TAG = "MainActivity";
+    //private CalculatorEngine calculatorEngine = new CalculatorEngine();
+
 
     private static final String STATE_X = "x";
     private static final String STATE_Y = "y";
@@ -16,11 +18,12 @@ public class MainActivity extends AppCompatActivity {
     private static final String STATE_BOOLEAN = "operandLastPressed";
     private static final String STATE_TEXTVIEW = "textViewEntryBox";
 
-    private CalculatorEngine calculatorEngine = new CalculatorEngine();
-
     private boolean operandLastPressed = false;
 
     private TextView textViewEntryBox;
+    private double x;
+    private double y;
+    private String operand;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +31,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         textViewEntryBox = (TextView) findViewById(R.id.textViewEntryBox);
+        x = 0;
+        y = 0;
+        operand = "";
 
         if (savedInstanceState != null) {
+            /*
             calculatorEngine.setOperand(savedInstanceState.getString(STATE_OPERAND));
             calculatorEngine.setX(savedInstanceState.getDouble(STATE_X));
             calculatorEngine.setY(savedInstanceState.getDouble(STATE_Y));
@@ -37,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
             operandLastPressed = savedInstanceState.getBoolean(STATE_BOOLEAN);
 
             textViewEntryBox.setText(savedInstanceState.getString(STATE_TEXTVIEW));
+            */
         }
     }
 
@@ -48,13 +56,16 @@ public class MainActivity extends AppCompatActivity {
         if (textViewEntryBox.getText().toString().equals("Error") || id == R.id.buttonC) {
             textViewEntryBox.setText("0");
             operandLastPressed = false;
-            calculatorEngine.clearCalculator();
+            //calculatorEngine.clearCalculator();
+            clearInformation();
             return;
         }
 
         if (id == R.id.buttonAdd || id == R.id.buttonSub || id == R.id.buttonMult || id == R.id.buttonDiv || id == R.id.buttonEquals) {
+            /*
             textViewEntryBox.setText(calculatorEngine.addItem(textViewEntryBox.getText().toString(),
                     button.getText().toString(), operandLastPressed));
+                    */
             operandLastPressed = true;
 
         } else {
@@ -83,8 +94,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void clearInformation() {
+        x = 0;
+        y = 0;
+        operand = "";
+    }
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
+        /*
         savedInstanceState.putDouble(STATE_X, calculatorEngine.getX());
         savedInstanceState.putDouble(STATE_Y, calculatorEngine.getY());
         savedInstanceState.putString(STATE_OPERAND, calculatorEngine.getOperand());
@@ -92,5 +110,6 @@ public class MainActivity extends AppCompatActivity {
         savedInstanceState.putString(STATE_TEXTVIEW, textViewEntryBox.getText().toString());
 
         super.onSaveInstanceState(savedInstanceState);
+        */
     }
 }
