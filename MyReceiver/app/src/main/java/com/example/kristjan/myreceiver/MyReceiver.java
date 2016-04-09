@@ -15,9 +15,6 @@ public class MyReceiver extends BroadcastReceiver {
     private DecimalFormat df;
     private String result;
 
-    public MyReceiver() {
-    }
-
     @Override
     public void onReceive(Context context, Intent intent) {
         if (isOrderedBroadcast()){
