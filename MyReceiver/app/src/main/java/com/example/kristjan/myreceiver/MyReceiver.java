@@ -24,8 +24,8 @@ public class MyReceiver extends BroadcastReceiver {
             Bundle extras = intent.getExtras();
 
             if (extras != null) {
-                x = extras.getDouble("x");
-                y = extras.getDouble("y");
+                x = Double.parseDouble(extras.getString("x"));
+                y = Double.parseDouble(extras.getString("y"));
                 operand = extras.getString("operand");
                 df = new DecimalFormat("######.######");
 
