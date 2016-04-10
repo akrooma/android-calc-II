@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     if (!operandLastPressed) {
                         broadcastIntent();
+                        operandLastPressed = true;
                     }
 
                     operand = button.getText().toString();
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
         // block that handles number and decimal point buttons.
         } else {
-            if (operandLastPressed || (xIsSet() && !operandIsSet())) {
+            if (operandLastPressed || (!x.isEmpty() && operand.isEmpty())) {
                 if (id == R.id.buttonDot) {
                     textViewEntryBox.setText("0.");
                 } else {
@@ -129,18 +130,6 @@ public class MainActivity extends AppCompatActivity {
         x = "";
         y = "";
         operand = "";
-    }
-
-    private boolean operandIsSet(){
-        return operand.isEmpty();
-    }
-
-    private boolean yIsSet(){
-        return y.isEmpty();
-    }
-
-    private boolean xIsSet(){
-        return x.isEmpty();
     }
 
     @Override
