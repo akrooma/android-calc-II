@@ -19,12 +19,11 @@ public class MainActivity extends AppCompatActivity {
     private static final String STATE_BOOLEAN = "operandLastPressed";
     private static final String STATE_TEXTVIEW = "textViewEntryBox";
 
-    private boolean operandLastPressed = false;
-
     private TextView textViewEntryBox;
-    private String x;
-    private String y;
-    private String operand;
+    private String x = "";
+    private String y = "";
+    private String operand = "";
+    private boolean operandLastPressed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +31,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         textViewEntryBox = (TextView) findViewById(R.id.textViewEntryBox);
-
-        x = "";
-        y = "";
-        operand = "";
 
         if (savedInstanceState != null) {
             operand = savedInstanceState.getString(STATE_OPERAND);
@@ -60,43 +55,23 @@ public class MainActivity extends AppCompatActivity {
 
         // Block that handles operands.
         if (id == R.id.buttonAdd || id == R.id.buttonSub || id == R.id.buttonMult || id == R.id.buttonDiv || id == R.id.buttonEquals) {
-            x = textViewEntryBox.getText().toString();
+            if (operand.isEmpty()) {
+                if (id != R.id.buttonEquals) {
+                    x = textViewEntryBox.getText().toString();
+                    operand = button.getText().toString();
+                    operandLastPressed = true;
+                }
 
-            if (!operandIsSet() && id == R.id.buttonEquals) {
-                return;
-            }
-
-            operand = button.getText().toString();
-            operandLastPressed = true;
-
-            if (operandIsSet() && (!operandLastPressed || id == R.id.buttonEquals)) {
-                y = textViewEntryBox.getText().toString();
-
-                Intent intent = new Intent();
-                intent.setAction("com.example.kristjan.mycalc");
-                intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-                intent.putExtra("x", x);
-                intent.putExtra("y", y);
-                intent.putExtra("operand", operand);
-
-                sendOrderedBroadcast(intent, null, new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        String result = getResultData();
-                        x = result;
-                        textViewEntryBox.setText(result);
-                    }
-                }, null, Activity.RESULT_OK, null, null);
-
+            } else {
                 if (id == R.id.buttonEquals) {
+                    broadcastIntent();
                     operand = "";
-                    /*
-                    Logically this boolean would have to be true given that the '=' operation was made,
-                    but since in this case the operation was used to simply get the answer,
-                     */
                     operandLastPressed = false;
                 } else {
-                    y = "";
+                    if (!operandLastPressed) {
+                        broadcastIntent();
+                    }
+
                     operand = button.getText().toString();
                 }
             }
@@ -122,11 +97,30 @@ public class MainActivity extends AppCompatActivity {
 
             } else if (textViewEntryBox.getText().toString().contains(".") && id == R.id.buttonDot) {
                 return;
-
             }
 
             textViewEntryBox.append(button.getText().toString());
         }
+    }// buttonClicked method
+
+    private void broadcastIntent() {
+        y = textViewEntryBox.getText().toString();
+
+        Intent intent = new Intent();
+        intent.setAction("com.example.kristjan.mycalc");
+        intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        intent.putExtra("x", x);
+        intent.putExtra("y", y);
+        intent.putExtra("operand", operand);
+
+        sendOrderedBroadcast(intent, null, new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String result = getResultData();
+                x = result;
+                textViewEntryBox.setText(result);
+            }
+        }, null, Activity.RESULT_OK, null, null);
     }
 
     private void clearInformation() {
@@ -138,15 +132,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean operandIsSet(){
-        return operand.length() > 0;
+        return operand.isEmpty();
     }
 
     private boolean yIsSet(){
-        return y.length() > 0;
+        return y.isEmpty();
     }
 
     private boolean xIsSet(){
-        return x.length() > 0;
+        return x.isEmpty();
     }
 
     @Override
