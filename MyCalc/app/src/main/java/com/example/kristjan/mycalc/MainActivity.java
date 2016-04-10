@@ -38,7 +38,13 @@ public class MainActivity extends AppCompatActivity {
         operand = "";
 
         if (savedInstanceState != null) {
+            operand = savedInstanceState.getString(STATE_OPERAND);
+            x = savedInstanceState.getString(STATE_X);
+            y = savedInstanceState.getString(STATE_Y);
 
+            operandLastPressed = savedInstanceState.getBoolean(STATE_BOOLEAN);
+
+            textViewEntryBox.setText(savedInstanceState.getString(STATE_TEXTVIEW));
         }
     }
 
@@ -95,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-        // block that handles numbers and decimal point.
+        // block that handles number and decimal point buttons.
         } else {
             if (operandLastPressed || (xIsSet() && !operandIsSet())) {
                 if (id == R.id.buttonDot) {
@@ -145,6 +151,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        return;
+        savedInstanceState.putString(STATE_X, x);
+        savedInstanceState.putString(STATE_Y, y);
+        savedInstanceState.putString(STATE_OPERAND, operand);
+        savedInstanceState.putBoolean(STATE_BOOLEAN, operandLastPressed);
+        savedInstanceState.putString(STATE_TEXTVIEW, textViewEntryBox.getText().toString());
+
+        super.onSaveInstanceState(savedInstanceState);
     }
 }

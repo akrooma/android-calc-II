@@ -15,6 +15,8 @@ public class MyReceiver extends BroadcastReceiver {
     private DecimalFormat df;
     private String result;
 
+    private UOW uow;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         if (isOrderedBroadcast()){
@@ -30,6 +32,7 @@ public class MyReceiver extends BroadcastReceiver {
 
             } else {
                 setResultCode(Activity.RESULT_CANCELED);
+                return;
             }
 
             setResultCode(Activity.RESULT_OK);
