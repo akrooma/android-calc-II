@@ -84,4 +84,18 @@ public class DayStatisticRepo extends Repo<DayStatistic> {
 
         return dayStatistics;
     }
+
+    public Cursor getDistinctDateStampsCursor() {
+        // prepare the query
+        //Cursor cursor = database.query(true, tableName, allColumns,
+                //null, null, allColumns[3], null, null, null);
+
+        //Cursor c = database.query(true, tableName, allColumns, null, null, allColumns[3], null, null, null, null);
+
+        Cursor res = database.rawQuery("Select Distinct (" + allColumns[3] + ") from " + tableName,null);
+
+        res.moveToFirst();
+
+        return res;
+    }
 }

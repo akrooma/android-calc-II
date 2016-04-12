@@ -53,10 +53,10 @@ public class DayStatistic implements IEntity {
         dayCounter++;
     }
 
-    /*
-    @Override
-    public String toString() {
-        return null;
+
+    public String toString(String operand) {
+        return DateUtil.dateStampToString(dateInMillis) +
+                "\n operand '" + operand + " occurrences: " + dayCounter;
     }
-    */
+
 }

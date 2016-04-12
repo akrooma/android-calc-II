@@ -2,6 +2,7 @@ package com.example.kristjan.myreceiver;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -26,9 +27,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         listView = (ListView) findViewById(R.id.list);
         textView = (TextView) findViewById(R.id.text);
+
         uow = new UOW(getApplicationContext());
+        displayOperations();
     }
 
     private void displayOperations() {
@@ -43,12 +47,16 @@ public class MainActivity extends AppCompatActivity {
         String s = "Day statistics";
         textView.setText(s);
 
-        OperationsAdapter operationsAdapter = new OperationsAdapter(this, uow.operationRepo.getCursorAll(), uow);
-        listView.setAdapter(operationsAdapter);
+        DayStatisticsAdapter dayStatisticsAdapter = new DayStatisticsAdapter(this, uow.dayStatisticRepo.getCursorAll(), uow);
+        listView.setAdapter(dayStatisticsAdapter);
     }
 
     private void displayOperationTypes() {
+        String s = "Operand statistics";
+        textView.setText(s);
 
+        OperationTypesAdapter operationTypesAdapter = new OperationTypesAdapter(this, uow.operationTypeRepo.getCursorAll(), uow);
+        listView.setAdapter(operationTypesAdapter);
     }
 
     private void refreshApp() {
@@ -104,5 +112,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        refreshApp();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.kristjan.myreceiver;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 
 /**
@@ -13,6 +14,9 @@ public class Operation implements IEntity {
     // this is not double so we can store "Error" results.
     private String result;
     private long timestamp;
+
+    // for the toString() method
+    private DecimalFormat df;
 
     public Operation() { }
 
@@ -73,8 +77,8 @@ public class Operation implements IEntity {
     }
 
     public String toString(String operand) {
-
-        return "Operation: " + getX() + " " + operand + " " + getY() + " = " + result +
+        df = new DecimalFormat("######.######");
+        return "Operation: " + df.format(getX()) + " " + operand + " " + df.format(getY()) + " = " + result +
                 "\n" + DateUtil.timestampToString(getTimestamp());
     }
 }

@@ -34,10 +34,10 @@ public class OperationTypesAdapter extends CursorAdapter {
     // second pass - final draw
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        TextView textView =(TextView) view.findViewById(R.id.operation_type);
+        TextView textView =(TextView) view.findViewById(R.id.operationType);
 
         OperationType operationType = uow.operationTypeRepo.cursorToEntity(cursor);
-        
-        textView.setText("Operation " + operationType.getOperand() + " done " + operationType.getLifetimeCounter() + " times.");
+
+        textView.setText("Operation '" + operationType.getOperand() + "' occurrences: " + operationType.getLifetimeCounter());
     }
 }
