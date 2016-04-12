@@ -1,7 +1,5 @@
 package com.example.kristjan.myreceiver;
 
-import java.util.Date;
-
 /**
  * Created by Kristjan on 10/04/2016.
  */
@@ -54,4 +52,11 @@ public class DayStatistic implements IEntity {
     public void incrementCounter() {
         dayCounter++;
     }
+
+    /*
+    @Override
+    public String toString() {
+        return null;
+    }
+    */
 }

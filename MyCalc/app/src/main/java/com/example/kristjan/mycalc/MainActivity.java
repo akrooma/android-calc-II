@@ -47,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
         Button button = (Button) view;
         int id = button.getId();
 
-        // If the calc displays an error message, then any button acts as C
+        // If the calc displays an error message, then any button acts as C.
+        // Resets everything.
         if (textViewEntryBox.getText().toString().equals("Error") || id == R.id.buttonC) {
             clearInformation();
             return;

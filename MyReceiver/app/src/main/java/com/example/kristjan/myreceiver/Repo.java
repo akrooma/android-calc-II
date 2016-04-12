@@ -9,9 +9,9 @@ import java.util.List;
 
 public abstract class Repo<T extends IEntity> {
     // Database fields
-    private SQLiteDatabase database;
-    private String tableName;
-    private String[] allColumns;
+    protected SQLiteDatabase database;
+    protected String tableName;
+    protected String[] allColumns;
 
 
     private static String TAG = Repo.class.getName();

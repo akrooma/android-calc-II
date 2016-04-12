@@ -1,6 +1,5 @@
 package com.example.kristjan.myreceiver;
 
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -11,6 +10,7 @@ public class Operation implements IEntity {
     private long operandId;
     private double x;
     private double y;
+    // this is not double so we can store "Error" results.
     private String result;
     private long timestamp;
 
@@ -72,9 +72,9 @@ public class Operation implements IEntity {
         this.timestamp = timestamp;
     }
 
+    public String toString(String operand) {
 
-    @Override
-    public String toString() {
-        return null;
+        return "Operation: " + getX() + " " + operand + " " + getY() + " = " + result +
+                "\n" + DateUtil.timestampToString(getTimestamp());
     }
 }

@@ -49,4 +49,16 @@ public class UOW {
         dayStatisticRepo.add(new DayStatistic(operationTypeAdd.getId(), 1, DateUtil.getDateInMilliseconds(operationAdd.getTimestamp())));
         dayStatisticRepo.add(new DayStatistic(operationTypeDivide.getId(), 1, DateUtil.getDateInMilliseconds(operationDivide.getTimestamp())));
     }
+
+
+    public void updateDatabaseWithNewOperation(double x, String operand, double y, String result) {
+        OperationType operationType = operationTypeRepo.getByOperand(operand);
+        operationType.incrementCounter();
+        operationTypeRepo.update(operationType);
+
+        Operation operation = new Operation(operationType.getId(), x, y, result);
+        operationRepo.add(operation);
+
+        dayStatisticRepo.insertUpdateDayCounter(operationType.getId(), DateUtil.getDateInMilliseconds(operation.getTimestamp()));
+    }
 }
