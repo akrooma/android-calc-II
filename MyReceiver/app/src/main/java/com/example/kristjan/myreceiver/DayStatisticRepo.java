@@ -39,7 +39,14 @@ public class DayStatisticRepo extends Repo<DayStatistic> {
         return contentValues;
     }
 
-    public DayStatistic insertUpdateDayCounter(long operationTypeId, long dateStamp) {
+    /***
+     * Inserts a new operation datestamp into the database. If such a combination already exists,
+     * then the entry's counter will be increased instead.
+     * Each unique datestamp can occur up to 4 times in the table, as there are 4 unique operations.
+     * @param operationTypeId operand (operation type) ID.
+     * @param dateStamp datestamp of an operation.
+     */
+    public void insertUpdateDayCounter(long operationTypeId, long dateStamp) {
         DayStatistic dayStatistic;
 
         // Prepare a query to find a database entry with specified operationTypeId and dateStamp(this is a date(year, month and day) in milliseconds).
@@ -49,11 +56,11 @@ public class DayStatisticRepo extends Repo<DayStatistic> {
 
         // If the query found no such entry from the database.
         if (cursor == null || cursor.getCount()<1) {
-            // Make a new dayStatistic.
+            // Make a new dayStatistic and add it to the database.
             DayStatistic newDayStatistic = new DayStatistic(operationTypeId, 1, dateStamp);
-            dayStatistic = add(newDayStatistic);
+            add(newDayStatistic);
 
-            // query found an entry.
+        // query found an entry.
         } else {
             // code to increment the dayCounter.
             cursor.moveToFirst();
@@ -61,10 +68,13 @@ public class DayStatisticRepo extends Repo<DayStatistic> {
             dayStatistic.incrementCounter();
             update(dayStatistic);
         }
-
-        return dayStatistic;
     }
 
+    /***
+     * Gets all datestamp entries for the given datestamp.
+     * @param dateStamp specified datestamp.
+     * @return list containing daystatistic objects with a specified datestamp.
+     */
     public List<DayStatistic> getForSpecificDate(long dateStamp) {
         List<DayStatistic> dayStatistics = new ArrayList<>();
 
@@ -85,6 +95,13 @@ public class DayStatisticRepo extends Repo<DayStatistic> {
         return dayStatistics;
     }
 
+    /***
+     * Purpose is to find entries with unique datestamps from the daystatistic table.
+     * doesn't matter for which operand the entry applies, as we're only interested in the datestamp variable.
+     * Could be optimized so the cursor holds only datestamp column from the table, as we only really use that one part.
+     * For that I'd probably need a second cursorToEntities method as well.
+     * @return cursor containing daystatistic objects with unique datestamps.
+     */
     public Cursor getDistinctDateStampsCursor() {
         // prepare the query
         Cursor newCursor = database.query(true, tableName, allColumns, null, null, allColumns[3], null, null, null);

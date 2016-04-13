@@ -8,6 +8,9 @@ import android.os.Bundle;
 
 import java.text.DecimalFormat;
 
+/**
+ * Custom receiver for the calculator's UI.
+ */
 public class MyReceiver extends BroadcastReceiver {
     private double x;
     private double y;
@@ -16,15 +19,14 @@ public class MyReceiver extends BroadcastReceiver {
     private DecimalFormat df;
     private String result;
 
-    private UOW uow;
-
     @Override
     public void onReceive(Context context, Intent intent) {
         if (isOrderedBroadcast()){
             Bundle extras = intent.getExtras();
 
+            // gets the needed data from the intent to do the calculation and saves calculation data to the db via the uow.
             if (extras != null) {
-                uow = new UOW(context);
+                UOW uow = new UOW(context);
 
                 x = Double.parseDouble(extras.getString("x"));
                 y = Double.parseDouble(extras.getString("y"));
@@ -32,7 +34,7 @@ public class MyReceiver extends BroadcastReceiver {
                 df = new DecimalFormat("######.######");
 
                 calculate();
-
+                uow.updateDatabaseWithNewOperation(x, operand, y, result);
             } else {
                 setResultCode(Activity.RESULT_CANCELED);
                 return;
@@ -40,11 +42,10 @@ public class MyReceiver extends BroadcastReceiver {
 
             setResultCode(Activity.RESULT_OK);
             setResultData(result);
-
-            uow.updateDatabaseWithNewOperation(x, operand, y, result);
         }
     }
 
+    // simple calculation method. resultDouble variable might be redundant; could just override variable X
     private void calculate(){
         if (operand.equals("+")) {
             resultDouble = x + y;

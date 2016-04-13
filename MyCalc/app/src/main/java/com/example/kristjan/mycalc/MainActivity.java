@@ -13,12 +13,14 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     //private static final String TAG = "MainActivity";
 
+    // saved instance state keys
     private static final String STATE_X = "x";
     private static final String STATE_Y = "y";
     private static final String STATE_OPERAND = "operand";
     private static final String STATE_BOOLEAN = "operandLastPressed";
     private static final String STATE_TEXTVIEW = "textViewEntryBox";
 
+    // needed variables.
     private TextView textViewEntryBox;
     private String x = "";
     private String y = "";
@@ -56,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Block that handles operand buttons..
         if (id == R.id.buttonAdd || id == R.id.buttonSub || id == R.id.buttonMult || id == R.id.buttonDiv || id == R.id.buttonEquals) {
+            /*
+                if the operand hasn't been set yet and the pressed button is not a ' = ' button,
+                whatever is being displayed on the screen will be set as arg X for the operation.
+                operation type (operand) will also be set according to the button pressed.
+                operandLastPressed boolean set to true so the buttonClicked method knows what to do next.
+             */
             if (operand.isEmpty()) {
                 if (id != R.id.buttonEquals) {
                     x = textViewEntryBox.getText().toString();
@@ -63,12 +71,25 @@ public class MainActivity extends AppCompatActivity {
                     operandLastPressed = true;
                 }
 
+            /*
+                in this case the operand and argument X have been set.
+             */
             } else {
                 if (id == R.id.buttonEquals) {
                     broadcastIntent();
                     operand = "";
                     operandLastPressed = false;
                 } else {
+                    /*
+                        this if block handles a case like this:
+                        5 + 5 + 5 +
+                        During that case the UI will have broadcasted twice
+                        the first broadcast comes after the user has already submitted 5 + 5 and
+                        the user presses + again. UI receives the answer from the brain and saves it
+                        in the X argument. Since the user pressed +, the new operand is already set too.
+                        The second broadcast comes after the user has submitted 5 after the last operation
+                        and presses +
+                      */
                     if (!operandLastPressed) {
                         broadcastIntent();
                         operandLastPressed = true;
@@ -80,6 +101,14 @@ public class MainActivity extends AppCompatActivity {
 
         // block that handles number and decimal point buttons.
         } else {
+            /*
+                second half of the if-statement is a situation when the last operation done (also button pressed)
+                was ' = ' . arg X is the answer of the previous operation, but since ' = ' as a future operation is moot,
+                the operand argument is empty. This if block handles a state when the last button pressed was either an
+                operation button or the calculator UI is displaying the answer from the last operation and no other button
+                has been pressed yet.
+                Last operation's answer gets cleared unless the user chooses a new operation straight away after ' = '
+             */
             if (operandLastPressed || (!x.isEmpty() && operand.isEmpty())) {
                 if (id == R.id.buttonDot) {
                     textViewEntryBox.setText("0.");
@@ -90,6 +119,11 @@ public class MainActivity extends AppCompatActivity {
                 operandLastPressed = false;
                 return;
 
+            /*
+               if the screen displays a 0 and button 0 is pressed, nothing happens. If the pressed button is not a
+               dot button, the UI display gets emptied. The display gets appended by any number button pressed
+               in the end of this big else block.
+             */
             } else if (textViewEntryBox.getText().toString().equals("0")) {
                 if (id == R.id.button0) {
                     return;
@@ -97,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                     textViewEntryBox.setText("");
                 }
 
+            // nothing happens if the display contains a dot and the pressed button is dot button.
             } else if (textViewEntryBox.getText().toString().contains(".") && id == R.id.buttonDot) {
                 return;
             }
@@ -105,7 +140,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }// buttonClicked method
 
+    // makes a new intent and fills it with data so the brain can do the calculations.
     private void broadcastIntent() {
+        /*
+            whatever the UI displays will be the second argument (Y) in the operation.
+          */
         y = textViewEntryBox.getText().toString();
 
         Intent intent = new Intent();
@@ -115,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("y", y);
         intent.putExtra("operand", operand);
 
+        // sends broadcast and makes a receiver so we can get back the data from the brain
         sendOrderedBroadcast(intent, null, new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -125,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
         }, null, Activity.RESULT_OK, null, null);
     }
 
+    // clears the calculator ui from any input data.
     private void clearInformation() {
         textViewEntryBox.setText("0");
         operandLastPressed = false;

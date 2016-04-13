@@ -6,6 +6,9 @@ import java.util.Date;
 
 /**
  * Created by Kristjan on 10/04/2016.
+ *
+ * This class holds a bunch of methods to get the millisecond format of a datestamp and
+ * string formats of a date- / timestamp.
  */
 public class DateUtil {
     /***

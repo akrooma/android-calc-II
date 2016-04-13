@@ -33,13 +33,22 @@ public class UOW {
         dbHelper.dropCreateDatabase(database);
     }
 
+    /***
+     * Updates the whole database with information concerning a new operation made by the brain.
+     * The result of the operation is a string so we can store the Error message.
+     * @param x first argument of the operation.
+     * @param operand operation type. =, -, * or /
+     * @param y second argument of the operation.
+     * @param result the result of the operation.
+     */
     public void updateDatabaseWithNewOperation(double x, String operand, double y, String result) {
         OperationType operationType = operationTypeRepo.getByOperand(operand);
-        operationType.incrementCounter();
-        operationTypeRepo.update(operationType);
 
         Operation operation = new Operation(operationType.getId(), x, y, result);
         operationRepo.add(operation);
+
+        operationType.incrementCounter();
+        operationTypeRepo.update(operationType);
 
         dayStatisticRepo.insertUpdateDayCounter(operationType.getId(), DateUtil.getDateInMilliseconds(operation.getTimestamp()));
     }
