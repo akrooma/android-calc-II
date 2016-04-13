@@ -33,24 +33,6 @@ public class UOW {
         dbHelper.dropCreateDatabase(database);
     }
 
-    public void SeedData() {
-        OperationType operationTypeAdd = operationTypeRepo.add(new OperationType("+", 0));
-        OperationType operationTypeSubtract = operationTypeRepo.add(new OperationType("-", 0));
-        OperationType operationTypeMultiply = operationTypeRepo.add(new OperationType("*", 0));
-        OperationType operationTypeDivide = operationTypeRepo.add(new OperationType("/", 0));
-
-        Operation operationAdd = operationRepo.add(new Operation(operationTypeAdd.getId(), 5, 5, "10"));
-
-        Operation operationDivide = new Operation(operationTypeDivide.getId(), 5, 0, "Error");
-        // Sun Apr 10 20:13:10 EEST 2016
-        operationDivide.setTimestamp(1460308390627L);
-        operationRepo.add(operationDivide);
-
-        dayStatisticRepo.add(new DayStatistic(operationTypeAdd.getId(), 1, DateUtil.getDateInMilliseconds(operationAdd.getTimestamp())));
-        dayStatisticRepo.add(new DayStatistic(operationTypeDivide.getId(), 1, DateUtil.getDateInMilliseconds(operationDivide.getTimestamp())));
-    }
-
-
     public void updateDatabaseWithNewOperation(double x, String operand, double y, String result) {
         OperationType operationType = operationTypeRepo.getByOperand(operand);
         operationType.incrementCounter();

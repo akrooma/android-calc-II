@@ -7,13 +7,13 @@ public class DayStatistic implements IEntity {
     private long _id;
     private long operandId;
     private long dayCounter;
-    private long dateInMillis;
+    private long dateStamp;
 
     public DayStatistic() { }
 
     public DayStatistic(long operandId, long dayCounter, long dateInMillis) {
         setOperandId(operandId);
-        setDateInMillis(dateInMillis);
+        setDateStamp(dateInMillis);
         setDayCounter(dayCounter);
     }
 
@@ -41,12 +41,12 @@ public class DayStatistic implements IEntity {
         this.dayCounter = dayCounter;
     }
 
-    public long getDateInMillis() {
-        return dateInMillis;
+    public long getDateStamp() {
+        return dateStamp;
     }
 
-    public void setDateInMillis(Long dateInMillis) {
-        this.dateInMillis = dateInMillis;
+    public void setDateStamp(Long dateStamp) {
+        this.dateStamp = dateStamp;
     }
 
     public void incrementCounter() {
@@ -55,7 +55,7 @@ public class DayStatistic implements IEntity {
 
 
     public String toString(String operand) {
-        return DateUtil.dateStampToString(dateInMillis) +
+        return DateUtil.dateStampToString(dateStamp) +
                 "\n operand '" + operand + " occurrences: " + dayCounter;
     }
 

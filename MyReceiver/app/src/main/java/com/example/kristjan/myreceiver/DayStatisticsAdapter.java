@@ -38,19 +38,18 @@ public class DayStatisticsAdapter extends CursorAdapter {
         TextView textView =(TextView) view.findViewById(R.id.dayStatistic);
 
         DayStatistic dayStatistic = uow.dayStatisticRepo.cursorToEntity(cursor);
-        OperationType operationType = uow.operationTypeRepo.getById(dayStatistic.getOperandId());
-        textView.setText(dayStatistic.toString(operationType.getOperand()));
+        //OperationType operationType = uow.operationTypeRepo.getById(dayStatistic.getOperandId());
+        //textView.setText(dayStatistic.toString(operationType.getOperand()));
 
-
-        //textView.setText("Date: " + DateUtil.dateStampToString(dayStatistic.getDateInMillis()));
-
-        //displayOperationTypes(view, dayStatistic);
+        //DayStatistic dayStatistic = uow.dayStatisticRepo.dateCursorToEntity(cursor);
+        textView.setText("Date: " + DateUtil.dateStampToString(dayStatistic.getDateStamp()));
+        displayOperationTypes(view, dayStatistic);
     }
 
     // datestamps aren't unique by date so the following method is useless.
     // apparently selecting table rows based on a column that's supposed to be unique(datestamp / dateinmillis) is a bit too crazy.
 
-    /*
+
     public void displayOperationTypes(View view, DayStatistic dayStatistic) {
         // get the contactsListView
         LinearLayout dayStatisticInfoListView = (LinearLayout) view.findViewById(R.id.dayStatisticListView);
@@ -60,18 +59,18 @@ public class DayStatisticsAdapter extends CursorAdapter {
         dayStatisticInfoListView.removeAllViews();
 
         for (DayStatistic dayStat :
-                uow.dayStatisticRepo.getForSpecificDate(dayStatistic.getDateInMillis())) {
+                uow.dayStatisticRepo.getForSpecificDate(dayStatistic.getDateStamp())) {
 
             // load the xml structure of your row
             View child = layoutInflater.inflate(R.layout.day_statistics_info, parentViewGroup, false);
 
             TextView textViewContactValue =(TextView) child.findViewById(R.id.dayStatisticInfo);
 
-            textViewContactValue.setText("Operation: '" + uow.operationTypeRepo.getById(dayStat.getOperandId()).getOperand()
-                    + "' occurrences: " + dayStat.getDayCounter());
+            textViewContactValue.setText("Operation: ' " + uow.operationTypeRepo.getById(dayStat.getOperandId()).getOperand()
+                    + " ' occurrences: " + dayStat.getDayCounter());
 
             dayStatisticInfoListView.addView(child);
         }
     }
-    */
+
 }

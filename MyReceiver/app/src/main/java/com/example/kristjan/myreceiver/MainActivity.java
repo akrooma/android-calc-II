@@ -47,7 +47,9 @@ public class MainActivity extends AppCompatActivity {
         String s = "Day statistics";
         textView.setText(s);
 
-        DayStatisticsAdapter dayStatisticsAdapter = new DayStatisticsAdapter(this, uow.dayStatisticRepo.getCursorAll(), uow);
+        DayStatisticsAdapter dayStatisticsAdapter = new DayStatisticsAdapter(this, uow.dayStatisticRepo.getDistinctDateStampsCursor(), uow);
+
+        //DayStatisticsAdapter dayStatisticsAdapter = new DayStatisticsAdapter(this, uow.dayStatisticRepo.getCursorAll(), uow);
         listView.setAdapter(dayStatisticsAdapter);
     }
 
@@ -60,8 +62,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refreshApp() {
-        displayOperationTypes();
-        displayDayStatistics();
         displayOperations();
     }
 

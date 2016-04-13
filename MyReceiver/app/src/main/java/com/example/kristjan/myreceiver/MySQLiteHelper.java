@@ -33,9 +33,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_DAYSTATISTICS_ID = "_id";
     public static final String COLUMN_DAYSTATISTICS_OPERANDID = "operandId";
     public static final String COLUMN_DAYSTATISTICS_DAYCOUNTER = "dayCounter";
-    public static final String COLUMN_DAYSTATISTICS_DATEINMILLIS = "dateInMillis";
+    public static final String COLUMN_DAYSTATISTICS_DATESTAMP = "dateStamp";
     public static final String[] ALLCOLUMNS_DAYSTATISTICS = {COLUMN_DAYSTATISTICS_ID, COLUMN_DAYSTATISTICS_OPERANDID,
-            COLUMN_DAYSTATISTICS_DAYCOUNTER, COLUMN_DAYSTATISTICS_DATEINMILLIS};
+            COLUMN_DAYSTATISTICS_DAYCOUNTER, COLUMN_DAYSTATISTICS_DATESTAMP};
 
     private static final String DATABASE_NAME = "operation.db";
     private static final int DATABASE_VERSION = 1;
@@ -60,7 +60,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + COLUMN_DAYSTATISTICS_ID + " integer primary key autoincrement, "
             + COLUMN_DAYSTATISTICS_OPERANDID + " integer, "
             + COLUMN_DAYSTATISTICS_DAYCOUNTER + " integer, "
-            + COLUMN_DAYSTATISTICS_DATEINMILLIS + " integer);";
+            + COLUMN_DAYSTATISTICS_DATESTAMP + " integer);";
 
     public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

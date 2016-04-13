@@ -38,6 +38,6 @@ public class OperationTypesAdapter extends CursorAdapter {
 
         OperationType operationType = uow.operationTypeRepo.cursorToEntity(cursor);
 
-        textView.setText("Operation '" + operationType.getOperand() + "' occurrences: " + operationType.getLifetimeCounter());
+        textView.setText("Operation ' " + operationType.getOperand() + " ' occurrences: " + operationType.getLifetimeCounter());
     }
 }

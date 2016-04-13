@@ -23,7 +23,7 @@ public class DayStatisticRepo extends Repo<DayStatistic> {
         dayStatistic.setId(cursor.getLong(0));
         dayStatistic.setOperandId(cursor.getLong(1));
         dayStatistic.setDayCounter(cursor.getLong(2));
-        dayStatistic.setDateInMillis(cursor.getLong(3));
+        dayStatistic.setDateStamp(cursor.getLong(3));
 
         return dayStatistic;
     }
@@ -34,7 +34,7 @@ public class DayStatisticRepo extends Repo<DayStatistic> {
 
         contentValues.put(MySQLiteHelper.COLUMN_DAYSTATISTICS_OPERANDID, dayStatistic.getOperandId());
         contentValues.put(MySQLiteHelper.COLUMN_DAYSTATISTICS_DAYCOUNTER, dayStatistic.getDayCounter());
-        contentValues.put(MySQLiteHelper.COLUMN_DAYSTATISTICS_DATEINMILLIS, dayStatistic.getDateInMillis());
+        contentValues.put(MySQLiteHelper.COLUMN_DAYSTATISTICS_DATESTAMP, dayStatistic.getDateStamp());
 
         return contentValues;
     }
@@ -87,15 +87,10 @@ public class DayStatisticRepo extends Repo<DayStatistic> {
 
     public Cursor getDistinctDateStampsCursor() {
         // prepare the query
-        //Cursor cursor = database.query(true, tableName, allColumns,
-                //null, null, allColumns[3], null, null, null);
+        Cursor newCursor = database.query(true, tableName, allColumns, null, null, allColumns[3], null, null, null);
 
-        //Cursor c = database.query(true, tableName, allColumns, null, null, allColumns[3], null, null, null, null);
+        newCursor.moveToFirst();
 
-        Cursor res = database.rawQuery("Select Distinct (" + allColumns[3] + ") from " + tableName,null);
-
-        res.moveToFirst();
-
-        return res;
+        return newCursor;
     }
 }

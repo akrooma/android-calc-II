@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // Block that handles operands.
+        // Block that handles operand buttons..
         if (id == R.id.buttonAdd || id == R.id.buttonSub || id == R.id.buttonMult || id == R.id.buttonDiv || id == R.id.buttonEquals) {
             if (operand.isEmpty()) {
                 if (id != R.id.buttonEquals) {

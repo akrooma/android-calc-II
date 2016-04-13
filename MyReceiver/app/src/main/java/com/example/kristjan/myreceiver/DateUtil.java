@@ -32,6 +32,7 @@ public class DateUtil {
         return setTimeTo0(calendar);
     }
 
+    // sets all the time(hour, minute, second etc) parameters to 0 so we just get the date in milliseconds.
     private static long setTimeTo0(Calendar calendar) {
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
